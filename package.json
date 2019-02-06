@@ -1,0 +1,38 @@
+{
+  "name": "tradeshift-challenge",
+  "version": "1.0.0",
+  "description": "Model of how a company needs to be structured ",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "webpack --color --progress",
+    "test:unit": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && mocha-webpack --webpack-config webpack.testing.js --mode development \"src/**/*.test.js\" --timeout 10000 --require source-map-support/register",
+    "test": "npm run test:unit"
+  },
+  "author": "Meshileya seun <meshileyaseun@gmail.com/>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.3",
+    "joi": "^14.3.1",
+    "mongodb": "^3.1.13",
+    "mongoose": "^4.12.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "mocha": "^4.0.1",
+    "mocha-webpack": "next",
+    "source-map-support": "^0.5.0",
+    "start-server-webpack-plugin": "^2.2.0",
+    "webpack": "^3.6.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.6.0"
+  }
+}
