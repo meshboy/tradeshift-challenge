@@ -46,7 +46,7 @@ curl -X GET \
 docker-compose up
 ```
 
-###Sample
+### Sample
 
 Descendants of a Co-founder
 
