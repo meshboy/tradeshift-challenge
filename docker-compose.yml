@@ -1,4 +1,4 @@
-version: "3"
+version: "3.3"
 services:
   app:
     container_name: tradeshift-container
@@ -6,16 +6,16 @@ services:
     build: .
     image: tradeshift-server:1.0
     environment:
-      - MONGO_URI=${MONGO_URI}
+      WAIT_HOSTS: mongo:27017
     ports:
-      - 3000:${PORT}
+      - 3000:${PORT_NUMBER}
     depends_on:
       - mongo
 
   mongo:
-    container_name: mongo-container
+    container_name: tradeshift-mongo-container
     image: mongo
     volumes:
-      - ./data/db:/data/db
+      - ./data:/data/db
     ports:
       - 27017:27017

@@ -2,11 +2,11 @@
   "name": "tradeshift-challenge",
   "version": "1.0.0",
   "description": "Model of how a company needs to be structured ",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "start": "webpack --color --progress --mode development",
-    "test:unit": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && mocha-webpack --webpack-config webpack.testing.js --mode development \"src/**/*.test.js\" --timeout 120000 --require source-map-support/register",
-    "test": "npm run test:unit"
+    "install": "npm run build",
+    "build": "babel src -d lib --source-maps",
+    "start": "node lib/index.js"
   },
   "author": "Meshileya seun <meshileyaseun@gmail.com/>",
   "license": "ISC",
@@ -18,12 +18,8 @@
     "mongoose": "^4.12.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-regenerator": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-stage-0": "^6.24.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
     "chai-http": "^4.2.1",
     "eslint": "^3.19.0",
@@ -31,14 +27,6 @@
     "eslint-config-airbnb-base": "^11.3.2",
     "eslint-plugin-import": "^2.6.0",
     "eslint-plugin-jsx-a11y": "^5.1.0",
-    "eslint-plugin-react": "^7.3.0",
-    "mocha": "^4.0.1",
-    "mocha-webpack": "next",
-    "raw-loader": "^0.5.1",
-    "source-map-support": "^0.5.0",
-    "start-server-webpack-plugin": "^2.2.0",
-    "webpack": "^3.6.0",
-    "webpack-cli": "^3.2.3",
-    "webpack-node-externals": "^1.6.0"
+    "eslint-plugin-react": "^7.3.0"
   }
 }

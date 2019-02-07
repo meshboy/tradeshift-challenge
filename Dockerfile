@@ -1,21 +1,23 @@
 FROM node:8
 
-# Create app directory
-WORKDIR /usr/src/app
+# create and set work directory
+RUN mkdir -p /src/tradeshift_challenge
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+WORKDIR /src/tradeshift_challenge
 
+COPY package*.json /src/tradeshift_challenge/
+# install all dependencies
 RUN npm install
-# If you are building your code for production
-# RUN npm install --only=production
 
-RUN npm audit fix --force
+COPY src /src/tradeshift_challenge/src
+COPY README.md .env .babelrc /src/tradeshift_challenge/
 
-# Bundle app source
-COPY . .
+RUN npm run build
 
-EXPOSE 3000
-CMD [ "npm", "start" ]
+EXPOSE 8080
+
+## mongo is damm slow, lets wait
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
+RUN chmod +x /wait
+
+CMD /wait && npm start
