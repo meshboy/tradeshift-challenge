@@ -19,10 +19,12 @@ const treeSchema = new mongoose.Schema(
       }
     ],
     parent: {
-      type: String
+      type: String,
+      lowercase: true
     },
     root: { 
-      type: String
+      type: String,
+      lowercase: true
     }
   },
   { timestamps: true }
