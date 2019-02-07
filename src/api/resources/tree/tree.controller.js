@@ -130,7 +130,7 @@ const updateParent = (req, res, next) => {
             )
               .exec()
               .then(removeDoc => {
-                res.status(status.OK).json({ status: true, updatedDoc });
+                res.status(status.OK).json({ status: true, data: updatedDoc });
               });
           })
           .catch(error => next(error));
