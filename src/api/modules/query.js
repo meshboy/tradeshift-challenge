@@ -23,5 +23,5 @@ export const generateControllers = (model, overrides = {}) => {
     // createOne: createOne(model)
   };
 
-  return { ...defaults, ...overrides };
+  return Object.assign(defaults, overrides);
 };

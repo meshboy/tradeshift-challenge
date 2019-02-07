@@ -28,7 +28,7 @@ const createNode = (req, res, next) => {
   const validation = Joi.validate({ node }, schema);
 
   if (validation.error) {
-    res
+    return res
       .status(status.BAD_REQUEST)
       .json({ status: false, message: validation.error });
   }
@@ -86,8 +86,16 @@ const createNode = (req, res, next) => {
     .catch(error => next(error));
 };
 
-const updateOne = (req, res, next) => {
-  const parent = req.params.parent;
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * update the parent of any node in the tree by adding the node to the
+ * new parent and pulling out the node from the existing parent
+ */
+const updateParent = (req, res, next) => {
+  const parent = req.body.parent;
   const node = req.body.node;
 
   const schema = Joi.object().keys({
@@ -98,10 +106,41 @@ const updateOne = (req, res, next) => {
   const validation = Joi.validate({ node, parent }, schema);
 
   if (validation.error) {
-    res
+    return res
       .status(status.BAD_REQUEST)
       .json({ status: false, message: validation.error });
   }
+
+  //   add the node to the new parent
+  Tree.findOneAndUpdate(
+    { node: parent },
+    { $addToSet: { children: node } },
+    { new: true }
+  )
+    .exec()
+    .then(updatedDoc => {
+      if (updatedDoc) {
+        // find the node in the tree and pull it out of its old parent
+        Tree.findOne({ node })
+          .then(nodeDoc => {
+            Tree.findOneAndUpdate(
+              { node: nodeDoc.parent },
+              { $pull: { children: node } },
+              { new: true }
+            )
+              .exec()
+              .then(removeDoc => {
+                res.status(status.OK).json({ status: true, updatedDoc });
+              });
+          })
+          .catch(error => next(error));
+      } else {
+        res
+          .status(status.NOT_FOUND)
+          .json({ status: false, message: "Node is not found" });
+      }
+    })
+    .catch(error => next(error));
 };
 
 /**
@@ -136,6 +175,6 @@ const getDecendants = (req, res, next) => {
 
 export default generateControllers(Tree, {
   createNode,
-  updateOne,
+  updateParent,
   getDecendants
 });

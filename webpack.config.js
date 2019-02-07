@@ -3,7 +3,7 @@ const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 const StartServerPlugin = require("start-server-webpack-plugin");
 
-require('dotenv').config()
+require("dotenv").config();
 
 module.exports = {
   entry: ["webpack/hot/poll?1000", "./src/index"],
@@ -42,7 +42,8 @@ module.exports = {
       "process.env": {
         BUILD_TARGET: JSON.stringify("server"),
         MONGO_URI: JSON.stringify(process.env.MONGO_URI),
-        PORT_NUMBER: JSON.stringify(process.env.PORT_NUMBER)
+        PORT_NUMBER: JSON.stringify(process.env.PORT_NUMBER),
+        TEST_MONGO_URI: JSON.stringify(process.env.TEST_MONGO_URI)
       }
     }),
     new webpack.BannerPlugin({
