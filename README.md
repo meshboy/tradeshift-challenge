@@ -41,7 +41,7 @@ Descendants of a Co-founder
                 "updatedAt": "2019-02-07T22:58:14.023Z",
                 "createdAt": "2019-02-07T22:54:08.427Z",
                 "node": "design team",
-                "parent": "general manager",
+                "parent": "co-founder",
                 "root": "general manager",
                 "__v": 0,
                 "children": [
@@ -53,7 +53,7 @@ Descendants of a Co-founder
                 "updatedAt": "2019-02-07T23:04:05.459Z",
                 "createdAt": "2019-02-07T22:53:35.296Z",
                 "node": "development team",
-                "parent": "general manager",
+                "parent": "co-founder",
                 "root": "general manager",
                 "__v": 0,
                 "children": [
@@ -65,7 +65,7 @@ Descendants of a Co-founder
                 "updatedAt": "2019-02-07T22:55:23.009Z",
                 "createdAt": "2019-02-07T22:54:38.254Z",
                 "node": "finance",
-                "parent": "general manager",
+                "parent": "co-founder",
                 "root": "general manager",
                 "__v": 0,
                 "children": [
@@ -77,7 +77,7 @@ Descendants of a Co-founder
                 "updatedAt": "2019-02-07T23:06:23.855Z",
                 "createdAt": "2019-02-07T22:52:37.137Z",
                 "node": "seo & marketing",
-                "parent": "general manager",
+                "parent": "co-founder",
                 "root": "general manager",
                 "__v": 0,
                 "children": [
