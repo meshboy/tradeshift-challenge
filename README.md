@@ -42,7 +42,11 @@ curl -X GET \
 
 ### Installing
 
+```
 docker-compose up
+```
+
+###Sample
 
 Descendants of a Co-founder
 
