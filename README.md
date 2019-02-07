@@ -81,8 +81,6 @@ Descendants of a Co-founder
                 "root": "general manager",
                 "__v": 0,
                 "children": [
-                    "Ads Assistant",
-                    "ads Assistant",
                     "ads assistant"
                 ]
             }
