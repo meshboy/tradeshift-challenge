@@ -38,10 +38,6 @@ curl -X PUT \
 Getting the descendants of a node
 curl -X GET \
   http://localhost:3000/api/v1/tree/co-founder \
-  -H 'Content-Type: application/json' \
-  -d '{
-	"node": "h finance"
-}'
 ```
 
 ### Installing
