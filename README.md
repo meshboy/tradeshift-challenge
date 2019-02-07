@@ -12,6 +12,38 @@ Case Study
 ![Image description](/public/images/casestudy.png)
 
 
+### Endpoints 
+Creating a node
+```bash
+curl -X POST \
+  http://localhost:3000/api/v1/tree \
+  -H 'Content-Type: application/json' \
+  -d '{
+	"node": "Ads Assistant"
+}'
+```
+
+Changing the parent of a node
+```bash
+curl -X PUT \
+  http://localhost:3000/api/v1/tree \
+  -H 'Content-Type: application/json' \
+  -d '{
+	"node": "ads assistant",
+	"parent": "seo & marketing"
+}'
+```
+
+```bash
+Getting the descendants of a node
+curl -X GET \
+  http://localhost:3000/api/v1/tree/co-founder \
+  -H 'Content-Type: application/json' \
+  -d '{
+	"node": "h finance"
+}'
+```
+
 ### Installing
 
 docker-compose up
