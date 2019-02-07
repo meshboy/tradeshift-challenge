@@ -16,7 +16,8 @@ const connect = () =>
 
 const dropDb = () => {
   return new Promise((resolve, reject) => {
-    mongoose.connection.dropDatabase();
+    const c = mongoose.connection.dropDatabase();
+    resolve(c);
   });
 };
 
@@ -27,24 +28,21 @@ describe("Tree", () => {
     connect();
   });
 
-  afterEach(async () => {
-    await dropDb();
-  });
-
-  it("should create a root node", async () => {
-    const resource = {
+  beforeEach(async () => {
+    const rootResource = {
       node: rootNode
     };
 
-    const result = await chai
+    const createRootNode = await chai
       .request(app)
       .post("/api/v1/tree")
-      .send(resource);
+      .send(rootResource);
 
-    expect(result).to.have.status(status.CREATED);
-    expect(result).to.be.json;
-    expect(result.body.data.node).to.eql(resource.node);
-    expect(result.body.data.parent).to.exist;
+    expect(createRootNode).to.have.status(status.CREATED);
+  });
+
+  afterEach(async () => {
+    await dropDb();
   });
 
   it("should create a node under root node", async () => {
@@ -64,19 +62,44 @@ describe("Tree", () => {
     expect(result.body.data.parent).to.eql(rootNode);
   });
 
+  it("should create new node under root node", async () => {
+    const resource = {
+      node: "coo"
+    };
+
+    const result = await chai
+      .request(app)
+      .post("/api/v1/tree")
+      .send(resource);
+
+    expect(result).to.have.status(status.CREATED);
+    expect(result).to.be.json;
+    expect(result.body.data.node).to.eql(resource.node);
+    expect(result.body.data.parent).to.exist;
+    expect(result.body.data.parent).to.eql(rootNode);
+  });
+
   it("should get descendants of a node", async () => {
-    const node = "organisation";
+    const createNodeResource = {
+      node: "coo"
+    };
 
-    const result = await chai.request(app).get(`/api/v1/tree/${node}`);
+    const createdNodeResult = await chai
+      .request(app)
+      .post("/api/v1/tree")
+      .send(createNodeResource);
 
-    console.log(result);
+    expect(createdNodeResult).to.have.status(status.CREATED);
+
+    const result = await chai.request(app).get(`/api/v1/tree/${rootNode}`);
 
     expect(result).to.have.status(status.OK);
     expect(result).to.be.json;
-    expect(result.body.data.root).to.eql(rootNode);
     expect(result.body.data.parent).to.exist;
+    expect(result.body.data.parent.root).to.eql(rootNode);
     expect(result.body.data.children).to.be.an("array");
     expect(result.body.data.children).to.have.length(1);
+    expect(result.body.data.children[0].node).to.eql(createNodeResource.node);
   });
 
   it("should change the parent of a node", async () => {
@@ -84,7 +107,7 @@ describe("Tree", () => {
       node: "cto"
     };
 
-    const resultOne = await chai
+    const promiseOne = chai
       .request(app)
       .post("/api/v1/tree")
       .send(resourceOne);
@@ -93,30 +116,31 @@ describe("Tree", () => {
       node: "developer"
     };
 
-    const resultTwo = await chai
+    const promiseTwo = chai
       .request(app)
       .post("/api/v1/tree")
       .send(resourceTwo);
 
+    const [resultOne, resultTwo] = await Promise.all([promiseOne, promiseTwo]);
+
     const updateParent = {
-      node: resourceTwo,
-      parent: resourceOne
+      node: resourceTwo.node,
+      parent: resourceOne.node
     };
+
+    expect(resultOne).to.have.status(status.CREATED);
+    expect(resultTwo).to.have.status(status.CREATED);
 
     const updateParentResult = await chai
       .request(app)
-      .post("/api/v1/tree")
+      .put("/api/v1/tree")
       .send(updateParent);
 
-    expect(resultOne).to.have.status(status.OK);
-
-    expect(resultTwo).to.have.status(status.OK);
-
     expect(updateParentResult).to.have.status(status.OK);
-    expect(result).to.be.json;
-    expect(result.body.data.root).to.eql(rootNode);
-    expect(result.body.data.parent).to.exist;
-    expect(result.body.data.children).to.be.an("array");
-    expect(result.body.data.children.indexOf(resourceTwo)).to.exist;
+    expect(updateParentResult).to.be.json;
+    expect(updateParentResult.body.data.root).to.eql(rootNode);
+    expect(updateParentResult.body.data.parent).to.exist;
+    expect(updateParentResult.body.data.children).to.be.an("array");
+    expect(updateParentResult.body.data.children.indexOf(resourceTwo)).to.exist;
   });
 });
