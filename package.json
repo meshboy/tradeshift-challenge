@@ -4,6 +4,7 @@
   "description": "Model of how a company needs to be structured ",
   "main": "lib/index.js",
   "scripts": {
+    "test": "mocha  --require babel-register  --timeout 120000 src/**/*.test.js",
     "install": "npm run build",
     "build": "babel src -d lib --source-maps",
     "start": "node lib/index.js"
@@ -18,8 +19,12 @@
     "mongoose": "^4.12.1"
   },
   "devDependencies": {
+    "@babel/plugin-transform-regenerator": "^7.0.0",
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "chai-http": "^4.2.1",
     "eslint": "^3.19.0",
